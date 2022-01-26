@@ -21,20 +21,32 @@ class Router
 
             if (preg_match("~$uriPattern~", $uri)) {
 
-                $segments = explode('/', $path);
+                // Получаем внутренний путь из внешнего согласно правилу
+                $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+
+                // Если есть совпадение, определить какой контроллер и action обрабатывают запрос
+                $segments = explode('/', $internalRoute);
 
                 //вытаскиваем контроллер
                 $controllerName = ucfirst(array_shift($segments)) . 'Controller';
                 $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
                 
-                //вытаскиваем метод
+                //вытаскиваем метод и остаються одни параметры
                 $actionName = 'action' . ucfirst(array_shift($segments));
+
+                // массив с параметрами
+                $parameters = $segments;
                 
                 if (file_exists($controllerFile)) {
                     include_once($controllerFile);
 
                     $controllerObject = new $controllerName;
-                    $result = $controllerObject->$actionName();
+
+                    //Вариант 1
+                    //$result = $controllerObject->$actionName($parameters);
+
+                    //Вариант 2
+                    $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
 
                     if ($result != null) {
                         break;

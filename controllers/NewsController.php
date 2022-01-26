@@ -9,9 +9,24 @@ class NewsController
         return true;
     }
 
-    public function actionView()
+    /*Вариант 1
+    public function actionView($params)
     {
-        echo "Просмотр ещё одной новости";
+        echo '<br><br>' . $params[0];
+        echo '<br>' . $params[1];
+        // - если в строке запроса добавить еще некоторые некоторые элементы,
+        // они бы тоже появились в нашем массиве и мы могли бы их распечатать
+        return true;
+    }
+    */
+
+    //Вариант 2
+    public function actionView($category, $id)
+    {
+        echo '<br><br>' . $category;
+        echo '<br>' . $id;
+        // - если в строке запроса добавить еще некоторые некоторые элементы,
+        // они бы тоже появились в нашем массиве и мы могли бы их распечатать
         return true;
     }
 
