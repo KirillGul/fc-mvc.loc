@@ -1,7 +1,16 @@
 <?php
 
-// FRONT CONTROLLER
-echo 'front controller <br>';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-// получаем информацию о нашем запросе
-echo 'your request: ' . $_SERVER['REQUEST_URI'];
+// создадим константу ROOT
+define('ROOT', dirname(__FILE__));
+
+// подключаем файл Router.php
+require_once (ROOT . '/components/Router.php');
+// подключаем файл config/routers.php
+$routes = include_once (ROOT . '/config/routes.php');
+
+
+$router = new Router ($routes);
+$router->run();
