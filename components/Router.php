@@ -19,17 +19,28 @@ class Router
 
         foreach ($this->routes as $uriPattern => $path) {
 
-            if (preg_match($uriPattern, $uri)) {
+            if (preg_match("~$uriPattern~", $uri)) {
 
-                $segments = explode($path, '/');
+                $segments = explode('/', $path);
 
                 //вытаскиваем контроллер
+                $controllerName = ucfirst(array_shift($segments)) . 'Controller';
+                $controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
                 
+                //вытаскиваем метод
+                $actionName = 'action' . ucfirst(array_shift($segments));
+                
+                if (file_exists($controllerFile)) {
+                    include_once($controllerFile);
 
+                    $controllerObject = new $controllerName;
+                    $result = $controllerObject->$actionName();
+
+                    if ($result != null) {
+                        break;
+                    }
+                }
             }
-
-            echo "$uriPattern -> $path<br>";
-
         }
     }
 
