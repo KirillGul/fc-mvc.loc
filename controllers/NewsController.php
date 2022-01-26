@@ -14,4 +14,9 @@ class NewsController
         echo "Просмотр ещё одной новости";
         return true;
     }
+
+    public function actionArchiveList()
+    {
+        
+    }
 }
