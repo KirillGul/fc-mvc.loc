@@ -19,8 +19,6 @@ class NewsController
         /*echo '<pre>';
         print_r($newsList);
         echo '</pre>';*/
-
-        return true;
     }
 
     /*Вариант 1

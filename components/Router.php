@@ -46,7 +46,7 @@ class Router
                     //$result = $controllerObject->$actionName($parameters);
 
                     //Вариант 2
-                    $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
+                    call_user_func_array(array($controllerObject, $actionName), $parameters);
 
                     die();
                 }
