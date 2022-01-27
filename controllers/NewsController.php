@@ -1,6 +1,7 @@
 <?php
 //подключение модели
-include_once ROOT . '/models/News.php'; 
+include_once ROOT . '/models/News.php';
+require_once (ROOT.'/components/Db.php'); // Установка соединения с БД
 
 class NewsController
 {
@@ -14,9 +15,10 @@ class NewsController
         // обращение к статическому методу модели
         $newsList = News::getNewsList();
 
-        echo '<pre>';
+        include_once ROOT . '/views/news/index.php';
+        /*echo '<pre>';
         print_r($newsList);
-        echo '</pre>';
+        echo '</pre>';*/
 
         return true;
     }
@@ -33,7 +35,7 @@ class NewsController
     */
 
     //Вариант 2
-    public function actionView($category, $id)
+    public function actionView($id)
     {
         /*
         echo '<br><br>' . $category;
@@ -46,9 +48,10 @@ class NewsController
             // обращение к статическому методу модели
             $newsItem= News::getNewsItemById($id);
 
-            echo '<pre>';
+            include_once ROOT . '/views/news/view.php';
+            /*echo '<pre>';
             print_r($newsItem);
-            echo '</pre>';
+            echo '</pre>';*/
 
             // echo 'actionView';
         }

@@ -48,9 +48,7 @@ class Router
                     //Вариант 2
                     $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
 
-                    if ($result != null) {
-                        break;
-                    }
+                    die();
                 }
             }
         }

@@ -4,23 +4,36 @@ class News
 {
     public static function getNewsItemById($id)
     {
+        // Запрос к БД
+        $id = intval($id);
+        if ($id) {
 
+            // получаем объект класса PDO из класса Db 
+            $db = Db::getConnection();
+
+            $result = $db->query('SELECT * FROM news WHERE id=' . $id);
+
+            // Чтобы данные из базы данных не дублировались,
+            // (ключами в массиве являются их названия колонок, и позиция колонок),
+            // используем специальную константу:
+            // ::setFetchMode —
+            // - устанавливает режим выборки по умолчанию для объекта запроса
+
+            // $result->setFetchMode(PDO::FETCH_NUM); -
+            // - оставит идексы номеров колонок
+
+            $result->setFetchMode(PDO::FETCH_ASSOC);
+            // - оставит индексы в виде названий
+            $newsItem = $result->fetch();
+            return $newsItem;
+        }
     }
 
     public static function getNewsList()
     {
-        // Запрос к БД
-        // Параметры соединения:
-        // работаем с локальным хостом,
-        $host = 'localhost';
-        // и будем соединяться с локальной БД (локальная база данных test2)
-        $dbname = 'test2';
-        $user = 'root';
-        $password = '';
-
-        // Создаем объект класса PDO, передав в конструктор параметры соединения
-        // при помощи этого объекта ($db), мы будем общаться с БД
-        $db = new PDO("mysql:host=$host; dbname=$dbname", $user, $password);
+        
+        // получаем объект класса PDO из класса Db 
+        $db = Db::getConnection();
 
         // После этого, создаем пустой массив для результатов
         $newsList = array();
@@ -37,15 +50,15 @@ class News
         // и далее, возвращаем этот массив: return $newsList
 
         $i = 0;
- 
-        while ($row = $result -> fetch(PDO :: FETCH_ASSOC)){
+
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
             $newsList[$i]['id'] = $row['id'];
             $newsList[$i]['title'] = $row['title'];
             $newsList[$i]['date'] = $row['date'];
             $newsList[$i]['short_content'] = $row['short_content'];
-            $i++ ;
+            $i++;
         }
 
-        return $newsList ;
+        return $newsList;
     }
 }
